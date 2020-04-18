@@ -2,6 +2,7 @@
 
 
 #include "PositionReport.h"
+#include "GameFramework/Actor.h"
 
 // Sets default values for this component's properties
 UPositionReport::UPositionReport()
@@ -10,7 +11,6 @@ UPositionReport::UPositionReport()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
 }
 
 
@@ -18,9 +18,10 @@ UPositionReport::UPositionReport()
 void UPositionReport::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
+	FString name = GetOwner()->GetName();
+	FString position = GetOwner()->GetActorLocation().ToString();
 	
+	UE_LOG(LogTemp, Warning, TEXT("PositionReport online on %s. Location at %s"), *name, *position);
 }
 
 
