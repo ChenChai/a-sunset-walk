@@ -44,5 +44,11 @@ private:
 
 	// Return hit for first physics body in reach
 	const FHitResult GetFirstPhysicsBodyInReach();
-		
+	
+
+	// Return vector at player's view point
+	const FVector GetPlayerViewPointLocation();
+
+	// Return vector representing end of player's reach
+	const FVector GetPlayerReachEndLocation();
 };
