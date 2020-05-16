@@ -28,7 +28,11 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 private:
+	// Sound Cue to play when instrument starts playing
 	UPROPERTY(EditAnywhere)
 	USoundCue* MusicSoundCue;
+
+	// Audio component which is currently playing
+	UAudioComponent* CurrentlyPlayingAudioComponent = nullptr;
 		
 };

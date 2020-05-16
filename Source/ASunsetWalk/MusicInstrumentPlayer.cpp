@@ -2,6 +2,8 @@
 
 
 #include "MusicInstrumentPlayer.h"
+#include "Components/AudioComponent.h" 
+#include "Kismet/GameplayStatics.h" 
 
 // Sets default values for this component's properties
 UMusicInstrumentPlayer::UMusicInstrumentPlayer()
@@ -16,10 +18,25 @@ UMusicInstrumentPlayer::UMusicInstrumentPlayer()
 
 void UMusicInstrumentPlayer::StartPlayingSound()
 {
+	UE_LOG(LogTemp, Warning, TEXT("StartPlayingSound called!"));
+	CurrentlyPlayingAudioComponent = UGameplayStatics::SpawnSoundAttached(
+		MusicSoundCue,
+		GetOwner()->GetDefaultAttachComponent(),
+		NAME_None,
+		FVector(),
+		EAttachLocation::KeepRelativeOffset
+	);
 }
 
 void UMusicInstrumentPlayer::StopPlayingSound()
 {
+	UE_LOG(LogTemp, Warning, TEXT("StopPlayingSound called!"));
+
+	if (CurrentlyPlayingAudioComponent) {
+		CurrentlyPlayingAudioComponent->FadeOut(1.0f, 0.0f);
+		CurrentlyPlayingAudioComponent->DestroyComponent();
+		CurrentlyPlayingAudioComponent = nullptr;
+	}
 }
 
 // Called when the game starts

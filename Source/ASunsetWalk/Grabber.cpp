@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "Components/InputComponent.h" 
 #include "Components/PrimitiveComponent.h" 
+#include "MusicInstrumentPlayer.h"
 #include "DrawDebugHelpers.h"
 
 // Sets default values for this component's properties
@@ -66,12 +67,38 @@ void UGrabber::Grab() {
 			ComponentToGrab->GetOwner()->GetActorLocation(),
 			true // allow rotation
 		);
+
+		UE_LOG(LogTemp, Warning, TEXT("Name: %s"), *ActorHit->GetFullName())
+
+		UMusicInstrumentPlayer* InstrumentPlayer = 
+			ActorHit->FindComponentByClass<UMusicInstrumentPlayer>();
+		
+		if (InstrumentPlayer) {
+			InstrumentPlayer->StartPlayingSound();
+		}
 	}
 }
 
 void UGrabber::Release() {
-	UE_LOG(LogTemp, Warning, TEXT("Grab Released!"));
+
+	auto GrabbedComponent = PhysicsHandle->GetGrabbedComponent();
+
+	if (GrabbedComponent) {
+		UE_LOG(LogTemp, Warning, TEXT("Grab Component exists!"));
+
+		if (GrabbedComponent->GetOwner()) {
+			UE_LOG(LogTemp, Warning, TEXT("Grab Component owner exists!"));
+
+			UMusicInstrumentPlayer* InstrumentPlayer =
+				GrabbedComponent->GetOwner()->FindComponentByClass<UMusicInstrumentPlayer>();
+			if (InstrumentPlayer) {
+				InstrumentPlayer->StopPlayingSound();
+			}
+		}
+	}
+
 	PhysicsHandle->ReleaseComponent();
+	UE_LOG(LogTemp, Warning, TEXT("Grab Released!"));
 }
 
 // Find attached physics handle component
@@ -124,7 +151,6 @@ const FHitResult UGrabber::GetFirstPhysicsBodyInReach()
 			GetOwner() // Ignore hitting our own pawn
 		)
 	);
-	UE_LOG(LogTemp, Warning, TEXT("Name: %s"), *Hit.GetActor()->GetFullName())
 
 	return Hit;
 }
