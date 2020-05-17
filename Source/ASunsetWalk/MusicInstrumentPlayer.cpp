@@ -4,6 +4,7 @@
 #include "MusicInstrumentPlayer.h"
 #include "Components/AudioComponent.h" 
 #include "Kismet/GameplayStatics.h" 
+#include <math.h>
 
 // Sets default values for this component's properties
 UMusicInstrumentPlayer::UMusicInstrumentPlayer()
@@ -26,6 +27,12 @@ void UMusicInstrumentPlayer::StartPlayingSound()
 		FVector(),
 		EAttachLocation::KeepRelativeOffset
 	);
+	CurrentlyPlayingAudioComponent->FadeIn(
+		2.0f, 
+		1.0f, 
+		// Start at the location of the track which all audio tracks are playing at
+		fmod(GetWorld()->GetTimeSeconds(), MusicSoundCue->GetDuration())
+	);
 }
 
 void UMusicInstrumentPlayer::StopPlayingSound()
@@ -33,8 +40,7 @@ void UMusicInstrumentPlayer::StopPlayingSound()
 	UE_LOG(LogTemp, Warning, TEXT("StopPlayingSound called!"));
 
 	if (CurrentlyPlayingAudioComponent) {
-		CurrentlyPlayingAudioComponent->FadeOut(1.0f, 0.0f);
-		CurrentlyPlayingAudioComponent->DestroyComponent();
+		CurrentlyPlayingAudioComponent->FadeOut(2.0f, 0.0f);
 		CurrentlyPlayingAudioComponent = nullptr;
 	}
 }
