@@ -35,4 +35,10 @@ public:
 	UFUNCTION()
 	void MoveRight(float Value);
 
+	// Handle input for jumping
+	UFUNCTION()
+	void StartJump();
+
+	UFUNCTION()
+	void StopJump();
 };
