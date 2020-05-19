@@ -41,4 +41,6 @@ public:
 
 	UFUNCTION()
 	void StopJump();
+
+	virtual void FellOutOfWorld(const UDamageType& dmgType) override;
 };

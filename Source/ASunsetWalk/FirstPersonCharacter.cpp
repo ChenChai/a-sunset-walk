@@ -64,3 +64,7 @@ void AFirstPersonCharacter::StartJump() {
 void AFirstPersonCharacter::StopJump() {
 	bPressedJump = false;
 }
+
+void AFirstPersonCharacter::FellOutOfWorld(const UDamageType& dmgType) {
+	// TODO Game over screen/return to main menu
+}
