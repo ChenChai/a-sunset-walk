@@ -1,4 +1,5 @@
 // Copyright Chen Chai 2020
+// See: https://docs.unrealengine.com/en-US/Programming/Tutorials/FirstPersonShooter/2/index.html
 
 #pragma once
 
@@ -25,5 +26,13 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	// Handle input for moving forwards/backwards
+	UFUNCTION()
+	void MoveForward(float Value);
+	
+	// Handle input for moving right/left
+	UFUNCTION()
+	void MoveRight(float Value);
 
 };

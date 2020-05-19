@@ -2,6 +2,8 @@
 
 
 #include "FirstPersonCharacter.h"
+#include "Components/InputComponent.h"
+#include "GameFramework/Controller.h" 
 
 // Sets default values
 AFirstPersonCharacter::AFirstPersonCharacter()
@@ -30,5 +32,20 @@ void AFirstPersonCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	// Bind movement inputs
+	PlayerInputComponent->BindAxis("MoveForward", this, &AFirstPersonCharacter::MoveForward);
+	PlayerInputComponent->BindAxis("MoveRight", this, &AFirstPersonCharacter::MoveRight);
 }
 
+void AFirstPersonCharacter::MoveForward(float Value) {
+	// Get the direction the player controller is facing (the 'forward' direction) and go that way
+	FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::X);
+	AddMovementInput(Direction, Value);
+}
+
+void AFirstPersonCharacter::MoveRight(float Value) {
+	// Get the direction which is right of where the player controller is facing and go that way
+	FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::Y);
+	AddMovementInput(Direction, Value);
+
+}
