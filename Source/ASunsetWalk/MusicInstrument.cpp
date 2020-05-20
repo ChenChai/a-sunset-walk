@@ -32,13 +32,15 @@ void AMusicInstrument::FellOutOfWorld(const UDamageType& dmgType) {
 
 	// Teleport actor to respawn location and reset the physics so it's unmoving
 	SetActorLocation(RespawnLocation, false, (FHitResult *) nullptr, ETeleportType::ResetPhysics);
+	SetActorRotation(RespawnRotation, ETeleportType::ResetPhysics);
 }
 
 void AMusicInstrument::ReturnInstrument() {
 	if (IsReturned) { return; }
 
 	SetActorLocation(FinalLocation, false, (FHitResult*) nullptr, ETeleportType::ResetPhysics);
-	
+	SetActorRotation(FinalRotation, ETeleportType::ResetPhysics);
+
 	UMusicInstrumentPlayer* MusicPlayer = FindComponentByClass<UMusicInstrumentPlayer>();
 	if (MusicPlayer) {
 		MusicPlayer->SetAlwaysPlaying(true);

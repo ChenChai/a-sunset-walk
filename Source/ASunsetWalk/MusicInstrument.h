@@ -34,9 +34,17 @@ private:
 	UPROPERTY(EditAnywhere)
 	FVector RespawnLocation = FVector();
 
+	// Rotation of the instrument when it respawns after falling out of the world
+	UPROPERTY(EditAnywhere)
+	FRotator RespawnRotation = FRotator();
+
 	// Final location of instrument once it has been returned
 	UPROPERTY(EditAnywhere)
 	FVector FinalLocation = FVector();
+
+	// Final Rotation of instrument once it has been returned
+	UPROPERTY(EditAnywhere)
+	FRotator FinalRotation = FRotator();
 
 	// Whether the instrument has been returned to its final location.
 	bool IsReturned = false;
