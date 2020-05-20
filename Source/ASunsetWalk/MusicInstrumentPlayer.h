@@ -20,6 +20,12 @@ public:
 	void StartPlayingSound();
 	void StopPlayingSound();
 
+	// Sets whether the instrument is always playing.
+	// If set to true, the instrument will play and  
+	// StopPlayingSound() will not do anything.
+	void SetAlwaysPlaying(bool AlwaysPlaying);
+	bool GetAlwaysPlaying() const;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -34,5 +40,8 @@ private:
 
 	// Audio component which is currently playing
 	UAudioComponent* CurrentlyPlayingAudioComponent = nullptr;
-		
+	
+	// Whether the instrument is always playing. If set to true,
+	// StopPlaying will not do anything.
+	bool IsAlwaysPlaying = false;
 };

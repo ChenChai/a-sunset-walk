@@ -2,6 +2,7 @@
 
 
 #include "MusicInstrument.h"
+#include "MusicInstrumentPlayer.h"
 
 // Sets default values
 AMusicInstrument::AMusicInstrument()
@@ -31,4 +32,23 @@ void AMusicInstrument::FellOutOfWorld(const UDamageType& dmgType) {
 
 	// Teleport actor to respawn location and reset the physics so it's unmoving
 	SetActorLocation(RespawnLocation, false, (FHitResult *) nullptr, ETeleportType::ResetPhysics);
+}
+
+void AMusicInstrument::ReturnInstrument() {
+	if (IsReturned) { return; }
+
+	SetActorLocation(FinalLocation, false, (FHitResult*) nullptr, ETeleportType::ResetPhysics);
+	
+	UMusicInstrumentPlayer* MusicPlayer = FindComponentByClass<UMusicInstrumentPlayer>();
+	if (MusicPlayer) {
+		MusicPlayer->SetAlwaysPlaying(true);
+	}
+
+	// Prevent instrument from being moved anymore
+	UStaticMeshComponent* StaticMeshComponent = FindComponentByClass<UStaticMeshComponent>();
+	if (StaticMeshComponent) {
+		StaticMeshComponent->SetMobility(EComponentMobility::Stationary);
+	}
+
+	IsReturned = true;
 }

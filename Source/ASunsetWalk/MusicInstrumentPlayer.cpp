@@ -19,6 +19,9 @@ UMusicInstrumentPlayer::UMusicInstrumentPlayer()
 
 void UMusicInstrumentPlayer::StartPlayingSound()
 {
+	if (IsAlwaysPlaying) { return; }
+	if (!MusicSoundCue) { return; }
+
 	UE_LOG(LogTemp, Warning, TEXT("StartPlayingSound called!"));
 	CurrentlyPlayingAudioComponent = UGameplayStatics::SpawnSoundAttached(
 		MusicSoundCue,
@@ -39,10 +42,24 @@ void UMusicInstrumentPlayer::StopPlayingSound()
 {
 	UE_LOG(LogTemp, Warning, TEXT("StopPlayingSound called!"));
 
+	// Don't stop playing if the player is supposed to always play
+	if (IsAlwaysPlaying) { return; }
+
 	if (CurrentlyPlayingAudioComponent) {
 		CurrentlyPlayingAudioComponent->FadeOut(2.0f, 0.0f);
 		CurrentlyPlayingAudioComponent = nullptr;
 	}
+}
+
+void UMusicInstrumentPlayer::SetAlwaysPlaying(bool AlwaysPlaying)
+{
+	StartPlayingSound();
+	IsAlwaysPlaying = AlwaysPlaying;
+}
+
+bool UMusicInstrumentPlayer::GetAlwaysPlaying() const
+{
+	return IsAlwaysPlaying;
 }
 
 // Called when the game starts
@@ -53,7 +70,6 @@ void UMusicInstrumentPlayer::BeginPlay()
 	// ...
 	
 }
-
 
 // Called every frame
 void UMusicInstrumentPlayer::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)

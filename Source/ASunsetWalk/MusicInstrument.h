@@ -25,8 +25,19 @@ public:
 	
 	virtual void FellOutOfWorld(const UDamageType& dmgType) override;
 
+	// Called when instrument is returned home. Changes actor 
+	// to static and moves it to its final location.
+	virtual void ReturnInstrument();
+
 private:
 	// Where the instrument respawns after falling out of the world
 	UPROPERTY(EditAnywhere)
 	FVector RespawnLocation = FVector();
+
+	// Final location of instrument once it has been returned
+	UPROPERTY(EditAnywhere)
+	FVector FinalLocation = FVector();
+
+	// Whether the instrument has been returned to its final location.
+	bool IsReturned = false;
 };
