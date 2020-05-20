@@ -7,6 +7,8 @@
 #include "GameFramework/Character.h"
 #include "FirstPersonCharacter.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFellIntoWaterReqest);
+
 UCLASS()
 class ASUNSETWALK_API AFirstPersonCharacter : public ACharacter
 {
@@ -41,6 +43,9 @@ public:
 
 	UFUNCTION()
 	void StopJump();
+
+	UPROPERTY(BlueprintAssignable)
+	FOnFellIntoWaterReqest OnFellIntoWaterRequest;
 
 	virtual void FellOutOfWorld(const UDamageType& dmgType) override;
 };
