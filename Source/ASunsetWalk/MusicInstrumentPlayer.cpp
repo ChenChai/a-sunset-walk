@@ -53,7 +53,10 @@ void UMusicInstrumentPlayer::StopPlayingSound()
 
 void UMusicInstrumentPlayer::SetAlwaysPlaying(bool AlwaysPlaying)
 {
-	StartPlayingSound();
+	if (AlwaysPlaying) {
+		StopPlayingSound();
+		StartPlayingSound();
+	}
 	IsAlwaysPlaying = AlwaysPlaying;
 }
 
