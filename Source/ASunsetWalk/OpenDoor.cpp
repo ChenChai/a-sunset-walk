@@ -30,18 +30,12 @@ void UOpenDoor::BeginPlay()
 
 void UOpenDoor::OpenDoor()
 {
-	AActor* Owner = GetOwner();
-
-	FRotator Rotator = FRotator(0.0f, this->OpenAngle, 0.0f);
-	Owner->SetActorRotation(Rotator);
+	OnOpenRequest.Broadcast();
 }
 
 void UOpenDoor::CloseDoor()
 {
-	AActor* Owner = GetOwner();
-
-	FRotator Rotator = FRotator(0.0f, this->CloseAngle, 0.0f);
-	Owner->SetActorRotation(Rotator);
+	OnCloseRequest.Broadcast();
 }
 
 // Called every frame

@@ -8,6 +8,9 @@
 #include "GameFramework/Actor.h"
 #include "OpenDoor.generated.h"
 
+// Makes a new class called FOnOpenRequest
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnOpenRequest);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCloseRequest);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class ASUNSETWALK_API UOpenDoor : public UActorComponent
@@ -29,14 +32,12 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	UPROPERTY(BlueprintAssignable)
+	FOnOpenRequest OnOpenRequest;
 		
+	UPROPERTY(BlueprintAssignable)
+	FOnCloseRequest OnCloseRequest;
 private:
-	UPROPERTY(VisibleAnywhere)
-	float OpenAngle = 90.0f;
-
-	UPROPERTY(VisibleAnywhere)
-	float CloseAngle = 0.0f;
-
 	// Door opens when player is in volume
 	UPROPERTY(EditAnywhere)
 	ATriggerVolume* OpenVolume;
