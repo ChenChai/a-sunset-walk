@@ -23,6 +23,9 @@ void UOpenDoor::BeginPlay()
 	Super::BeginPlay();
 
 	ActorThatOpens = GetWorld()->GetFirstPlayerController()->GetPawn();
+	if (!OpenVolume) {
+		UE_LOG(LogTemp, Error, TEXT("%s has no Open Volume selected!"), *GetOwner()->GetName())
+	}
 }
 
 void UOpenDoor::OpenDoor()
@@ -48,9 +51,9 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 
 	// Poll trigger volume every frame, open door if ActorThatOpens 
 	// is in the trigger volume, open the door
-
+	if (!OpenVolume) { return; }
 	if (OpenVolume->IsOverlappingActor(ActorThatOpens)) {
-		OpenDoor();
+		OpenDoor();	
 	} else {
 		CloseDoor();
 	}
