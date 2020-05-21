@@ -38,10 +38,17 @@ private:
 	UPROPERTY(EditAnywhere)
 	USoundCue* MusicSoundCue;
 
+	// Attenuation to use for the music
+	UPROPERTY(EditAnywhere)
+	USoundAttenuation* AttenuationSettings;
+
 	// Audio component which is currently playing
 	UAudioComponent* CurrentlyPlayingAudioComponent = nullptr;
-	
+
 	// Whether the instrument is always playing. If set to true,
 	// StopPlaying will not do anything.
 	bool IsAlwaysPlaying = false;
+
+	// Which component of the instrument to attach the music to 
+	USceneComponent* SceneComponentToAttachTo;
 };
