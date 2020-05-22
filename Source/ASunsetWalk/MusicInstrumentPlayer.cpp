@@ -20,7 +20,9 @@ UMusicInstrumentPlayer::UMusicInstrumentPlayer()
 void UMusicInstrumentPlayer::StartPlayingSound()
 {
 	if (IsAlwaysPlaying) { return; }
-	if (!MusicSoundCue) { return; }
+	if (!MusicSoundCue || !SoundWaveForDuration) {
+		return;
+	}
 
 	if (CurrentlyPlayingAudioComponent) {
 		CurrentlyPlayingAudioComponent->DestroyComponent();
@@ -49,8 +51,9 @@ void UMusicInstrumentPlayer::StartPlayingSound()
 		2.0f, 
 		1.0f, 
 		// Start at the location of the track which all audio tracks are playing at
-		fmod(GetWorld()->GetTimeSeconds(), MusicSoundCue->GetDuration())
+		fmod(GetWorld()->GetTimeSeconds(), SoundWaveForDuration->GetDuration())
 	);
+	UE_LOG(LogTemp, Warning, TEXT("fmod(%f, %f) = %f"), GetWorld()->GetTimeSeconds(), SoundWaveForDuration->GetDuration(), fmod(GetWorld()->GetTimeSeconds(), SoundWaveForDuration->GetDuration()))
 }
 
 void UMusicInstrumentPlayer::StopPlayingSound()
@@ -86,6 +89,9 @@ void UMusicInstrumentPlayer::BeginPlay()
 	SceneComponentToAttachTo = GetOwner()->FindComponentByClass<USceneComponent>();
 	if (!SceneComponentToAttachTo) {
 		UE_LOG(LogTemp, Error, TEXT("%s has no USceneComponent to attach music to for MusicInstrumentPlayer!"), *GetOwner()->GetName())
+	}
+	if (!MusicSoundCue || !SoundWaveForDuration) {
+		UE_LOG(LogTemp, Error, TEXT("%s has no MusicSoundCue or SoundWaveForDuration! Music will not play."), *GetOwner()->GetName())
 	}
 }
 

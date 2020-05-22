@@ -42,6 +42,10 @@ private:
 	UPROPERTY(EditAnywhere)
 	USoundAttenuation* AttenuationSettings;
 
+	// Sound wave to reference duration of song with
+	UPROPERTY(EditAnywhere)
+	USoundWave* SoundWaveForDuration;
+
 	// Audio component which is currently playing
 	UAudioComponent* CurrentlyPlayingAudioComponent = nullptr;
 
