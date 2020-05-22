@@ -40,7 +40,9 @@ void UMusicInstrumentPlayer::StartPlayingSound()
 		1.0f,
 		1.0f,
 		0.0f,
-		AttenuationSettings
+		AttenuationSettings,
+		(USoundConcurrency*) nullptr,
+		false
 	);
 
 	CurrentlyPlayingAudioComponent->FadeIn(

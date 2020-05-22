@@ -59,7 +59,7 @@ void UGrabber::Grab() {
 
 	AActor* ActorHit = HitResult.GetActor();
 
-	if (ActorHit) {
+	if (ActorHit && ComponentToGrab) {
 		// If we hit something, attach physics handle
 		PhysicsHandle->GrabComponent(
 			ComponentToGrab,
