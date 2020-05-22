@@ -29,10 +29,10 @@ void UMusicInstrumentPlayer::StartPlayingSound()
 
 	UE_LOG(LogTemp, Warning, TEXT("StartPlayingSound called!"));
 
-	UE_LOG(LogTemp, Warning, TEXT("Component Location: %s"), *GetOwner()->GetDefaultAttachComponent()->GetComponentLocation().ToString())
+	UE_LOG(LogTemp, Warning, TEXT("Component Location: %s"), *SceneComponentToAttachTo->GetComponentLocation().ToString())
 	CurrentlyPlayingAudioComponent = UGameplayStatics::SpawnSoundAttached(
 		MusicSoundCue,
-		GetOwner()->GetDefaultAttachComponent(),
+		SceneComponentToAttachTo,
 		NAME_None,
 		FVector(),
 		EAttachLocation::KeepRelativeOffset,
@@ -42,7 +42,7 @@ void UMusicInstrumentPlayer::StartPlayingSound()
 		0.0f,
 		AttenuationSettings
 	);
-	CurrentlyPlayingAudioComponent->SetPaused(true);
+
 	CurrentlyPlayingAudioComponent->FadeIn(
 		2.0f, 
 		1.0f, 
@@ -81,6 +81,10 @@ bool UMusicInstrumentPlayer::GetAlwaysPlaying() const
 void UMusicInstrumentPlayer::BeginPlay()
 {
 	Super::BeginPlay();
+	SceneComponentToAttachTo = GetOwner()->FindComponentByClass<USceneComponent>();
+	if (!SceneComponentToAttachTo) {
+		UE_LOG(LogTemp, Error, TEXT("%s has no USceneComponent to attach music to for MusicInstrumentPlayer!"), *GetOwner()->GetName())
+	}
 }
 
 // Called every frame

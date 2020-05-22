@@ -48,4 +48,7 @@ private:
 	// Whether the instrument is always playing. If set to true,
 	// StopPlaying will not do anything.
 	bool IsAlwaysPlaying = false;
+
+	// Which component of the instrument to attach the music to 
+	USceneComponent* SceneComponentToAttachTo;
 };
