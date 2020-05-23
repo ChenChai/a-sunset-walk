@@ -5,6 +5,7 @@
 #include "GameFramework/Actor.h"
 #include "GameFramework/PlayerController.h"
 #include "Engine/World.h"
+#include "ASunsetWalkGameStateBase.h"
 
 // Sets default values for this component's properties
 UOpenDoor::UOpenDoor()
@@ -45,8 +46,14 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 
 	// Poll trigger volume every frame, open door if ActorThatOpens 
 	// is in the trigger volume, open the door
+
+	// TODO use event trigger rather than polling
 	if (!OpenVolume) { return; }
-	if (OpenVolume->IsOverlappingActor(ActorThatOpens)) {
+
+	// Only open the door if the player has returned one or more instruments
+	AASunsetWalkGameStateBase* GameState = GetWorld() ? GetWorld()->GetGameState<AASunsetWalkGameStateBase>() : nullptr;
+
+	if (GameState && GameState->GetReturnedInstruments() > 0 && OpenVolume->IsOverlappingActor(ActorThatOpens)) {
 		OpenDoor();	
 	} else {
 		CloseDoor();

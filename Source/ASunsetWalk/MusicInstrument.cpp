@@ -3,6 +3,7 @@
 
 #include "MusicInstrument.h"
 #include "MusicInstrumentPlayer.h"
+#include "ASunsetWalkGameStateBase.h"
 
 // Sets default values
 AMusicInstrument::AMusicInstrument()
@@ -50,6 +51,14 @@ void AMusicInstrument::ReturnInstrument() {
 	UStaticMeshComponent* StaticMeshComponent = FindComponentByClass<UStaticMeshComponent>();
 	if (StaticMeshComponent) {
 		StaticMeshComponent->SetMobility(EComponentMobility::Stationary);
+	}
+
+	AASunsetWalkGameStateBase* GameState = GetWorld() ? GetWorld()->GetGameState<AASunsetWalkGameStateBase>() : nullptr;
+
+	UE_LOG(LogTemp, Warning, TEXT("GameState is nullptr: %d"), !GameState)
+
+	if (GameState) {
+		GameState->ReturnInstrument();
 	}
 
 	IsReturned = true;
