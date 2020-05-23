@@ -3,7 +3,8 @@
 
 #include "FirstPersonCharacter.h"
 #include "Components/InputComponent.h"
-#include "GameFramework/Controller.h" 
+#include "GameFramework/Controller.h"
+#include "Grabber.h"
 
 // Sets default values
 AFirstPersonCharacter::AFirstPersonCharacter()
@@ -66,5 +67,11 @@ void AFirstPersonCharacter::StopJump() {
 }
 
 void AFirstPersonCharacter::FellOutOfWorld(const UDamageType& dmgType) {
+	// If the player is currently holding onto anything,
+	// release it so it's not there when they respawn
+	UGrabber* Grabber = FindComponentByClass<UGrabber>();
+	Grabber->Release();
+
+	// Use blueprint to script respawn logic
 	OnFellIntoWaterRequest.Broadcast();
 }

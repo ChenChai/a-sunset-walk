@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "PhysicsEngine/PhysicsHandleComponent.h"
 #include "Components/InputComponent.h" 
+#include "FirstPersonCharacter.h"
 #include "Grabber.generated.h"
 
 
@@ -13,6 +14,10 @@ UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class ASUNSETWALK_API UGrabber : public UActorComponent
 {
 	GENERATED_BODY()
+
+	// Allows character to call Release() on
+	// grabber when character falls out of world
+	friend class AFirstPersonCharacter;
 
 public:	
 	// Sets default values for this component's properties
@@ -25,7 +30,7 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
+	
 private:
 	UPROPERTY(EditAnywhere)
 	float Reach = 100.0f;
@@ -35,6 +40,8 @@ private:
 
 	// Ray-cast + grab physics actor in reach
 	void Grab();
+
+	// Release currently grabbed physics actor
 	void Release();
 
 	// Finds attached physics handle
