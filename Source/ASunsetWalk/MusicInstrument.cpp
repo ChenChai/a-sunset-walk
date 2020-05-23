@@ -31,8 +31,8 @@ void AMusicInstrument::FellOutOfWorld(const UDamageType& dmgType) {
 	UE_LOG(LogTemp, Warning, TEXT("fell out of world!"))
 
 	// Teleport actor to respawn location and reset the physics so it's unmoving
-	SetActorLocation(RespawnLocation, false, (FHitResult *) nullptr, ETeleportType::ResetPhysics);
 	SetActorRotation(RespawnRotation, ETeleportType::ResetPhysics);
+	SetActorLocation(RespawnLocation, false, (FHitResult *) nullptr, ETeleportType::ResetPhysics);
 }
 
 void AMusicInstrument::ReturnInstrument() {
